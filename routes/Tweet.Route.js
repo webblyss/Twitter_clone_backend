@@ -1,12 +1,14 @@
 const router = require("express").Router();
 const multer = require('multer');
-const {Tweet} = require("../modules/Tweet.module")
+const Tweet = require("../modules/Tweet.module")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+
       cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
+      
       cb(null, Date.now() + '-' + file.originalname)
     }
   });
@@ -16,9 +18,9 @@ const storage = multer.diskStorage({
 
 router.post('/posts', upload.single('image'), async (req, res) => {
   try {
-  const {  content } = req.body;
-  const imageUrl = req.file ? req.file.path : null;
-  const newTweet = new Tweet({ content, imageUrl });  
+  const {  username,profile,content } = req.body;
+  const imageUrl = req.file ? req.file.path.replace(/\\/g, '/') : null;
+  const newTweet = new Tweet({ username,profile,content, imageUrl });  
   // Save the new tweet to the database
   const savedTweet = await newTweet.save();
 
@@ -32,17 +34,19 @@ router.post('/posts', upload.single('image'), async (req, res) => {
 
 });
 
+router.get("/allPost",async(req,res)=>{
+  
+  try{
+    const tweets = await Tweet.find()
+    res.status(200).send(tweets)
+  }catch(error){
+
+  }
+})
+
 
 router.put('/posts/:id/like', (req, res) => {
-    const postId = parseInt(req.params.id);
-    const post = posts.find(post => post.id === postId);
-    if (!post) {
-      res.status(404).json({ error: 'Post not found' });
-      return;   
-    } 
-      post.likes++;
-  
-    res.status(200).json(post);
+    
   });
 
 

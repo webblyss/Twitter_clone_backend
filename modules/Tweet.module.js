@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 
 // Define schema for tweet object
 const tweetSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true
+  },
+  profile: {
+    type: String,
+    required: true
+  },
   content: {
     type: String,
     required: true
@@ -19,5 +27,4 @@ const tweetSchema = new mongoose.Schema({
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
 
-module.exports = {
-  Tweet,};
+module.exports =Tweet

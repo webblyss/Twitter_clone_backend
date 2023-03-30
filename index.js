@@ -8,7 +8,7 @@ const port = process.env.PORT || 8000
  
 // IMPORT ROUTES
 const routes = require("./routes/Tweet.Route")
- 
+const register = require("./routes/UserRoute") 
 
 
 
@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors())
 app.use("/api/",routes)
+app.use("/api/accounts/",register)
 
 
 
